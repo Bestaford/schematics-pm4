@@ -10,6 +10,6 @@ use pocketmine\plugin\PluginBase;
 class Schematics extends PluginBase {
 
     protected function onEnable() : void {
-        $this->getServer()->getCommandMap()->register("schematics", new SchematicsCommand($this, "sc", "Schematics"));
+        $this->getServer()->getCommandMap()->register("schematics", new SchematicsCommand($this, "scheme", "Schematics"));
     }
 }
