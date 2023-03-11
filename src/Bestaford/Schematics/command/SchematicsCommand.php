@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace Bestaford\Schematics\command;
 
 use Bestaford\Schematics\Schematics;
-use Exception;
 use pocketmine\command\Command;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginOwned;
@@ -15,7 +14,7 @@ use pocketmine\command\CommandSender;
 class SchematicsCommand extends Command implements PluginOwned {
 
     private Schematics $plugin;
-    private static $positions = [];
+    private static array $positions = [];
 
     public function __construct(Schematics $plugin, $name, $description) {
         $this->plugin = $plugin;
@@ -43,13 +42,20 @@ class SchematicsCommand extends Command implements PluginOwned {
                 self::$positions[$sender->getName()]["pos2"] = $sender->getPosition();
                 $sender->sendMessage("Position 2 selected!");
                 break;
+            case "export":
+                if (count($args) == 0) {
+                    $this->printHelp($sender);
+                    return;
+                }
+                $sender->sendMessage("export");
+                break;
             default:
-                $sender->sendMessage("Unknown subcommand");
+                $this->printHelp($sender);
         }
     }
 
     public function printHelp(CommandSender $sender) : void {
-        $sender->sendMessage("/sc pos1\n/sc pos2");
+        $sender->sendMessage("/sc pos1\n/sc pos2\n/sc export <name>");
     }
 
     public function getOwningPlugin() : Plugin {
