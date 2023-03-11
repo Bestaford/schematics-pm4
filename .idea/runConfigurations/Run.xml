@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run" type="PhpLocalRunConfigurationType" factoryName="PHP Console" path="$PROJECT_DIR$/../../../../../../PMMP4/PocketMine-MP.phar">
+  <configuration default="false" name="Run" type="PhpLocalRunConfigurationType" factoryName="PHP Console" path="$PROJECT_DIR$/../../PocketMine-MP.phar">
     <CommandLine>
       <PhpTestInterpreterSettings>
         <option name="interpreterName" value="PHP" />
