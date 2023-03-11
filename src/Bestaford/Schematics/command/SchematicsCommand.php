@@ -6,6 +6,7 @@ namespace Bestaford\Schematics\command;
 
 use Bestaford\Schematics\Schematics;
 use pocketmine\command\Command;
+use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginOwned;
 use pocketmine\plugin\Plugin;
@@ -38,13 +39,12 @@ class SchematicsCommand extends Command implements PluginOwned {
             case "help":
                 $this->printHelp($sender);
                 return;
-                break;
             case "pos1":
-                self::$positions[$sender->getName()]["pos1"] = $sender->getPosition();
+                self::$positions[$sender->getName()]["pos1"] = $sender->getPosition()->floor();
                 $sender->sendMessage(TextFormat::GREEN . "Position 1 selected!");
                 break;
             case "pos2":
-                self::$positions[$sender->getName()]["pos2"] = $sender->getPosition();
+                self::$positions[$sender->getName()]["pos2"] = $sender->getPosition()->floor();
                 $sender->sendMessage(TextFormat::GREEN . "Position 2 selected!");
                 break;
             case "export":
@@ -60,7 +60,7 @@ class SchematicsCommand extends Command implements PluginOwned {
                     $sender->sendMessage(TextFormat::RED . "Position 2 is not selected!");
                     return;
                 }
-                $sender->sendMessage("export");
+                $this->export($sender, trim(array_shift($args)));
                 break;
             default:
                 $this->printHelp($sender);
@@ -69,6 +69,28 @@ class SchematicsCommand extends Command implements PluginOwned {
 
     public function printHelp(CommandSender $sender) : void {
         $sender->sendMessage(TextFormat::BLUE . "/sc help\n/sc pos1\n/sc pos2\n/sc export <name>");
+    }
+
+    public function export(CommandSender $sender, string $name) {
+        $pos1 = self::$positions[$sender->getName()]["pos1"];
+        $pos2 = self::$positions[$sender->getName()]["pos2"];
+        if ($pos1 instanceof Vector3 && $pos2 instanceof Vector3) {
+            $minX = min($pos1->getX(), $pos2->getX());
+            $minY = min($pos1->getY(), $pos2->getY());
+            $minZ = min($pos1->getZ(), $pos2->getZ());
+
+            $maxX = max($pos1->getX(), $pos2->getX());
+            $maxY = max($pos1->getY(), $pos2->getY());
+            $maxZ = max($pos1->getZ(), $pos2->getZ());
+
+            for ($x = $minX; $x <= $maxX; ++$x) {
+                for ($y = $minY; $y <= $maxY; ++$y) {
+                    for ($z = $minZ; $z <= $maxZ; ++$z) {
+                        $sender->sendMessage("{$x}:{$y}:{$z}");
+                    }
+                }
+            }
+        }
     }
 
     public function getOwningPlugin() : Plugin {
