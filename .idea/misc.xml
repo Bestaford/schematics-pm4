@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpEntryPointsManager">
+    <entry_point>
+      <entry_point TYPE="phpMethod" FQNAME="\Bestaford\Schematics\Schematics onEnable" />
+      <entry_point TYPE="phpClass" FQNAME="\Bestaford\Schematics\Schematics" />
+      <entry_point TYPE="phpMethod" FQNAME="\Bestaford\Schematics\command\SchematicsCommand execute" />
+      <entry_point TYPE="phpClass" FQNAME="\Bestaford\Schematics\command\SchematicsCommand" />
+      <entry_point TYPE="phpMethod" FQNAME="\Bestaford\Schematics\command\SchematicsCommand __construct" />
+    </entry_point>
+    <pattern value="\Bestaford\Schematics\Schematics" member="onEnable" />
+    <pattern value="\Bestaford\Schematics\Schematics" />
+    <pattern value="\Bestaford\Schematics\command\SchematicsCommand" member="execute" />
+    <pattern value="\Bestaford\Schematics\command\SchematicsCommand" />
+    <pattern value="\Bestaford\Schematics\command\SchematicsCommand" member="__construct" />
+  </component>
+</project>

@@ -72,6 +72,9 @@ class SchematicsCommand extends Command implements PluginOwned {
     }
 
     public function export(CommandSender $sender, string $name) {
+        if (!$sender instanceof Player) {
+            return;
+        }
         $pos1 = self::$positions[$sender->getName()]["pos1"];
         $pos2 = self::$positions[$sender->getName()]["pos2"];
         if ($pos1 instanceof Vector3 && $pos2 instanceof Vector3) {
@@ -83,13 +86,26 @@ class SchematicsCommand extends Command implements PluginOwned {
             $maxY = max($pos1->getY(), $pos2->getY());
             $maxZ = max($pos1->getZ(), $pos2->getZ());
 
+            $result = [];
+            $world = $sender->getWorld();
+
             for ($x = $minX; $x <= $maxX; ++$x) {
                 for ($y = $minY; $y <= $maxY; ++$y) {
                     for ($z = $minZ; $z <= $maxZ; ++$z) {
-                        $sender->sendMessage("{$x}:{$y}:{$z}");
+                        $block = $world->getBlockAt($x, $y, $z, false, false);
+                        $id = $block->getId();
+                        $meta = $block->getMeta();
+                        if ($id == 0) {
+                            continue;
+                        }
+                        $result["$x:$y:$z"] = "$id:$meta";
                     }
                 }
             }
+
+            $filename = $this->getOwningPlugin()->getDataFolder() . $name . ".json";
+            file_put_contents($filename, json_encode($result));
+            $sender->sendMessage(TextFormat::GREEN . "Scheme exported to: $filename");
         }
     }
 
